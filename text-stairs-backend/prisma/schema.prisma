@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int        @id @default(autoincrement())
+  email         String     @unique
+  password      String
+  full_name     String?
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  status        UserStatus @default(ACTIVE)
+  role          UserRole   @default(USER)
+  page_per_book Int        @default(100)
+  book_limit    Int        @default(3)
+
+  // Relations
+  subscriptions Subscription[]
+  books         Book[]
+}
+
+model Subscription {
+  id                   Int                @id @default(autoincrement())
+  user_id              Int
+  plan_id              Int
+  status               SubscriptionStatus @default(INACTIVE)
+  current_period_start DateTime
+  current_period_end   DateTime
+  cancel_at_period_end Boolean            @default(false)
+  subscription_id      String // External payment provider subscription ID
+  created_at           DateTime           @default(now())
+  updated_at           DateTime           @updatedAt
+
+  // Relations
+  user User @relation(fields: [user_id], references: [id])
+  plan Plan @relation(fields: [plan_id], references: [id])
+}
+
+model Book {
+  id             Int           @id @default(autoincrement())
+  user_id        Int
+  book_name      String
+  page_count     Int
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+  final_analysis String
+  analysis       BookAnalysis?
+
+  user User? @relation(fields: [user_id], references: [id])
+}
+
+model Plan {
+  id               Int             @id @default(autoincrement())
+  name             String
+  description      String
+  page_per_book    Int             @default(100)
+  book_limit       Int             @default(3)
+  price            Float           @default(0)
+  billing_interval BillingInterval
+  plan_type        PlanType        @default(FREE)
+  is_active        Boolean         @default(true)
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+
+  // Relations
+  subscriptions Subscription[]
+}
+
+model BookAnalysis {
+  id                Int      @id @default(autoincrement())
+  book_id           Int      @unique
+  prompt_tokens     Int
+  completion_tokens Int
+  total_tokens      Int
+  created_at        DateTime @default(now())
+  request_id        String
+  model_name        String
+  finish_reason     String?
+  cost              Float
+
+  // Relation
+  book Book @relation(fields: [book_id], references: [id])
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum PlanType {
+  FREE
+  PAID
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELED
+  PAST_DUE
+  UNPAID
+  TRIALING
+}
+
+enum BillingInterval {
+  MONTHLY
+  YEARLY
+}
