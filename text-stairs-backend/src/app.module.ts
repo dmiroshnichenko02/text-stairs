@@ -4,6 +4,7 @@ import { AiController } from './ai/ai.controller';
 import { AiModule } from './ai/ai.module';
 import { AiService } from './ai/ai.service';
 import { MakeApiRequest } from './ai/utils/apiRequest';
+import { PromptGenerationService } from './ai/utils/promptGeneration.service';
 import { SummarizeTokenUsage } from './ai/utils/summarizeTokenUsage';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -36,6 +37,7 @@ import { UserService } from './user/user.service';
     AiService,
     MakeApiRequest,
     SummarizeTokenUsage,
+    PromptGenerationService,
   ],
 })
 export class AppModule {}
