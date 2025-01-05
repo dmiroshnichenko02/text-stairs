@@ -16,6 +16,7 @@ import { BooksService } from './books/books.service';
 import { PrismaService } from './prisma.service';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
+import { OwnerModule } from './owner/owner.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UserService } from './user/user.service';
     UserModule,
     AiModule,
     BooksModule,
+    OwnerModule,
   ],
   controllers: [AppController, AuthController, AiController, BooksController],
   providers: [

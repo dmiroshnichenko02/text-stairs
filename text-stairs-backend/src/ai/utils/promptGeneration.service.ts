@@ -194,4 +194,32 @@ export const PROMPT_CONFIGS = {
       'For each quote, provide brief factual context about when and where it occurs in the story, if available in the text.',
     ],
   } satisfies PromptConfig,
+
+  TEXT_QUESTIONS: {
+    analysisPoints: [
+      {
+        key: 'Generate factual questions (5-6) about specific events and details. For each question provide:\n- Question\n- Direct answer from the text\n- Include quote only if the question is specifically about a quote',
+        required: true,
+      },
+      {
+        key: 'Create analytical questions (4-5) about character motivations, themes, and plot developments. For each question provide:\n- Question\n- Detailed answer based on text analysis\n- Include quote only if directly analyzing specific text passages',
+        required: true,
+      },
+      {
+        key: 'Form discussion questions (2-3) that connect to broader themes. For each question provide:\n- Question\n- Suggested answer direction',
+        required: true,
+      },
+    ],
+    includePartInfo: true,
+    skipEmpty: false,
+    isLiterature: true,
+    additionalInstructions: [
+      'Format each Q&A simply as:\nQ: [Question]\nA: [Answer]',
+      'Only include quotes if they are specifically being analyzed or discussed in the question',
+      'Answers should be clear and complete',
+      'Questions should progress from simple facts to complex analysis',
+      'For the final summary, select the most insightful Q&As from each section',
+      'Focus on understanding the text rather than citing specific chapters or sections',
+    ],
+  } satisfies PromptConfig,
 } as const;

@@ -23,6 +23,72 @@ export class AiService {
     private readonly promptService: PromptGenerationService,
   ) {}
 
+  async textQuotes(
+    file: Express.Multer.File,
+    userId: number,
+  ): Promise<{
+    bookId: number;
+    pageCount: number;
+    chunkSummaries: string[];
+    finalSummary: string;
+    tokenUsage: TokenUsage;
+  }> {
+    const { text, pageCount, user, bookLimit, pagePerBook } =
+      await this.validateAndPrepareBook(file, userId);
+
+    const startTime = Date.now();
+    console.log('Book analysis started...');
+
+    let totalTokenUsage: TokenUsage = {
+      prompt_tokens: 0,
+      completion_tokens: 0,
+      total_tokens: 0,
+    };
+
+    const textChunks = this.splitIntoChunks(text);
+    const { analyses: chunkAnalyses, usage: chunkUsage } =
+      await this.analyzeChunks(textChunks, PROMPT_CONFIGS.TEXT_QUESTIONS);
+
+    totalTokenUsage = this.summarizeTokenUsage.sumTokenUsage(
+      totalTokenUsage,
+      chunkUsage,
+    );
+
+    const { analysis: finalAnalysis, usage: finalUsage } =
+      await this.createFinalAnalysis(
+        chunkAnalyses,
+        PROMPT_CONFIGS.TEXT_QUESTIONS,
+      );
+
+    totalTokenUsage = this.summarizeTokenUsage.sumTokenUsage(
+      totalTokenUsage,
+      finalUsage,
+    );
+
+    const book = await this.prisma.book.create({
+      data: {
+        book_name: file.originalname.replace('.pdf', ''),
+        page_count: pageCount,
+        final_analysis: finalAnalysis,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+
+    this.logAnalysisCompletion(startTime, totalTokenUsage);
+
+    return {
+      bookId: book.id,
+      pageCount,
+      chunkSummaries: chunkAnalyses,
+      finalSummary: finalAnalysis,
+      tokenUsage: totalTokenUsage,
+    };
+  }
+
   async charactersQuotes(
     file: Express.Multer.File,
     userId: number,
