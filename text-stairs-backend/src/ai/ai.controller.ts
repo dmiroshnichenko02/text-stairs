@@ -5,6 +5,8 @@ import {
   Request,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -26,6 +28,7 @@ export class AiController {
   constructor(private readonly bookAnalysisService: AiService) {}
 
   @Post('analyze')
+  @UsePipes(new ValidationPipe())
   @UseInterceptors(
     FileInterceptor('file', {
       fileFilter: (req, file, cb) => {
@@ -132,6 +135,7 @@ export class AiController {
   }
 
   @Post('short-summary')
+  @UsePipes(new ValidationPipe())
   @UseInterceptors(
     FileInterceptor('file', {
       fileFilter: (req, file, cb) => {
@@ -234,6 +238,7 @@ export class AiController {
   }
 
   @Post('characters-quotes')
+  @UsePipes(new ValidationPipe())
   @UseInterceptors(
     FileInterceptor('file', {
       fileFilter: (req, file, cb) => {
@@ -339,6 +344,7 @@ export class AiController {
   // Text Quotes
 
   @Post('text-quotes')
+  @UsePipes(new ValidationPipe())
   @UseInterceptors(
     FileInterceptor('file', {
       fileFilter: (req, file, cb) => {

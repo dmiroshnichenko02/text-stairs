@@ -38,7 +38,7 @@ export class AuthService {
     if (!newUser)
       throw new BadRequestException('Something went wront on create user');
 
-    const tokens = await this.issueTokenPair(String(newUser.id));
+    const tokens = await this.issueTokenPair(String(newUser.id), newUser.role);
 
     return {
       id: newUser.id,
@@ -55,7 +55,7 @@ export class AuthService {
   async login(dto: AuthUserLoginDto) {
     const user = await this.validateUser(dto);
 
-    const tokens = await this.issueTokenPair(String(user.id));
+    const tokens = await this.issueTokenPair(String(user.id), user.role);
 
     return {
       id: user.id,
@@ -74,7 +74,9 @@ export class AuthService {
       throw new BadRequestException('Please sign in');
     }
 
-    const result = await this.jwtService.verifyAsync(refreshToken);
+    const result = await this.jwtService.verifyAsync(refreshToken, {
+      secret: this.configService.get('JWT_SECRET'),
+    });
 
     if (!result) {
       throw new UnauthorizedException('Invalid token or expired!');
@@ -82,11 +84,11 @@ export class AuthService {
 
     const user = await this.prisma.user.findUnique({
       where: {
-        id: result.id,
+        id: parseInt(result.id),
       },
     });
 
-    const tokens = await this.issueTokenPair(String(user.id));
+    const tokens = await this.issueTokenPair(String(user.id), user.role);
 
     return {
       id: user.id,
@@ -118,11 +120,11 @@ export class AuthService {
     return user;
   }
 
-  async issueTokenPair(userId: string) {
+  async issueTokenPair(userId: string, role: 'ADMIN' | 'USER') {
     const secret = this.configService.get<string>('JWT_SECRET');
 
     try {
-      const payload = { id: userId };
+      const payload = { id: userId, role: role };
 
       const accessToken = await this.jwtService.signAsync(payload, {
         secret: secret,

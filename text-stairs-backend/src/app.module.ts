@@ -17,6 +17,7 @@ import { PrismaService } from './prisma.service';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
 import { OwnerModule } from './owner/owner.module';
+import { PlanModule } from './plan/plan.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { OwnerModule } from './owner/owner.module';
     AiModule,
     BooksModule,
     OwnerModule,
+    PlanModule,
   ],
   controllers: [AppController, AuthController, AiController, BooksController],
   providers: [

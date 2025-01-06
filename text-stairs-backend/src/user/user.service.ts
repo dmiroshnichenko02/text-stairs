@@ -26,14 +26,6 @@ export class UserService {
           },
         },
         subscriptions: {
-          select: {
-            cancel_at_period_end: true,
-            status: true,
-            id: true,
-            current_period_end: true,
-            current_period_start: true,
-            plan_id: true,
-          },
           include: {
             plan: {
               select: {
