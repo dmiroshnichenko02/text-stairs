@@ -47,6 +47,9 @@ export class PromptGenerationService {
     }
 
     parts.push(`Text: ${chunkText}`);
+    parts.push(
+      'IMPORTANT: Provide the analysis in the same language as the input text.',
+    );
 
     return parts.join('\n\n');
   }
@@ -82,6 +85,9 @@ export class PromptGenerationService {
     }
 
     parts.push('Individual analyses:', combinedAnalysis);
+    parts.push(
+      'IMPORTANT: Provide the final analysis in the same language as the input text.',
+    );
 
     return parts.join('\n\n');
   }

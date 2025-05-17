@@ -69,12 +69,12 @@ export class AuthService {
     };
   }
 
-  async getNewTokens({ refreshToken }: RefreshTokenDto) {
-    if (!refreshToken) {
+  async getNewTokens({ refresh_token }: RefreshTokenDto) {
+    if (!refresh_token) {
       throw new BadRequestException('Please sign in');
     }
 
-    const result = await this.jwtService.verifyAsync(refreshToken, {
+    const result = await this.jwtService.verifyAsync(refresh_token, {
       secret: this.configService.get('JWT_SECRET'),
     });
 

@@ -4,5 +4,5 @@ export class RefreshTokenDto {
   @IsString({
     message: 'Invalid refresh token',
   })
-  refreshToken: string;
+  refresh_token: string;
 }

@@ -321,9 +321,16 @@ export class AiService {
     }
 
     const currentPlan = user.subscriptions[0]?.plan;
+    const pagePerBook = user.page_per_book || currentPlan?.page_per_book;
+    const bookLimit = currentPlan?.book_limit || user.book_limit;
+
+    const userBookCount = await this.prisma.book.count({
+      where: { user_id: userId },
+    });
+
     return {
       totalBooks: user.books.length,
-      bookLimit: currentPlan?.book_limit || user.book_limit,
+      bookLimit,
       pagePerBookLimit: currentPlan?.page_per_book || user.page_per_book,
       books: user.books,
     };
@@ -359,7 +366,7 @@ export class AiService {
     }
 
     const currentPlan = user.subscriptions[0]?.plan;
-    const pagePerBook = currentPlan?.page_per_book || user.page_per_book;
+    const pagePerBook = user.page_per_book || currentPlan?.page_per_book;
     const bookLimit = currentPlan?.book_limit || user.book_limit;
 
     const userBookCount = await this.prisma.book.count({

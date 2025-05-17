@@ -1,101 +1,132 @@
-import Image from "next/image";
+import { BookAnalysis } from '@/components/book-analysis'
+import { BookUpload } from '@/components/book-upload'
+import { Features } from '@/components/features'
+import { PricingPlans } from '@/components/pricing-plans'
+import { BackgroundBeamsWithCollision } from '@/components/ui/background-beams-with-collision'
+import { Button } from '@/components/ui/button'
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+	return (
+		<div className='flex flex-col min-h-screen'>
+			<main className='flex-1'>
+				<BackgroundBeamsWithCollision>
+					<section className='py-12 md:py-24 bg-gradient-to-b from-white to-emerald-50'>
+						<div className='container px-4 mx-auto md:px-6'>
+							<div className='grid gap-6 lg:grid-cols-2 lg:gap-12 items-center'>
+								<div className='space-y-4'>
+									<h1 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>
+										Розкрийте потенціал книг з TextStairs
+									</h1>
+									<p className='max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'>
+										Завантажуйте книги та отримуйте глибокий аналіз: питання,
+										короткий зміст, цитати, аналіз персонажів та багато іншого.
+									</p>
+									<div className='flex flex-col gap-2 min-[400px]:flex-row'>
+										<Button className='bg-emerald-600 hover:bg-emerald-700'>
+											Спробувати безкоштовно
+										</Button>
+										<Button variant='outline'>Дізнатися більше</Button>
+									</div>
+								</div>
+								<div className='mx-auto lg:ml-auto z-50'>
+									<Card className='border-emerald-200 shadow-lg'>
+										<CardHeader className='pb-4'>
+											<CardTitle>Аналіз книги</CardTitle>
+											<CardDescription>
+												Завантажте книгу та оберіть тип аналізу
+											</CardDescription>
+										</CardHeader>
+										<CardContent>
+											<BookUpload />
+										</CardContent>
+									</Card>
+								</div>
+							</div>
+						</div>
+					</section>
+				</BackgroundBeamsWithCollision>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+				<section id='features' className='py-12 md:py-24'>
+					<div className='container mx-auto px-4 md:px-6'>
+						<div className='flex flex-col items-center justify-center space-y-4 text-center'>
+							<div className='space-y-2'>
+								<div className='inline-block rounded-lg bg-emerald-100 px-3 py-1 text-sm text-emerald-700'>
+									Можливості
+								</div>
+								<h2 className='text-3xl font-bold tracking-tighter sm:text-5xl'>
+									Що може TextStairs?
+								</h2>
+								<p className='max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'>
+									Наша платформа пропонує широкий спектр інструментів для
+									аналізу книг та текстів
+								</p>
+							</div>
+						</div>
+						<Features />
+					</div>
+				</section>
+
+				<section id='demo' className='py-12 md:py-24 bg-gray-50'>
+					<div className='container mx-auto px-4 md:px-6'>
+						<div className='flex flex-col items-center justify-center space-y-4 text-center'>
+							<div className='space-y-2'>
+								<h2 className='text-3xl font-bold tracking-tighter sm:text-5xl'>
+									Спробуйте демо
+								</h2>
+								<p className='max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'>
+									Перегляньте, як працює TextStairs на прикладі
+								</p>
+							</div>
+						</div>
+						<div className='mx-auto max-w-4xl py-12'>
+							<BookAnalysis />
+						</div>
+					</div>
+				</section>
+
+				<section id='pricing' className='py-12 md:py-24'>
+					<div className='container mx-auto px-4 md:px-6'>
+						<div className='flex flex-col items-center justify-center space-y-4 text-center'>
+							<div className='space-y-2'>
+								<div className='inline-block rounded-lg bg-emerald-100 px-3 py-1 text-sm text-emerald-700'>
+									Тарифи
+								</div>
+								<h2 className='text-3xl font-bold tracking-tighter sm:text-5xl'>
+									Оберіть свій план
+								</h2>
+								<p className='max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'>
+									Гнучкі тарифи для різних потреб з можливістю тижневої та
+									місячної оплати
+								</p>
+							</div>
+						</div>
+						<div className='mx-auto max-w-5xl py-12'>
+							<Tabs defaultValue='weekly' className='w-full'>
+								<div className='flex justify-center mb-8'>
+									<TabsList>
+										<TabsTrigger value='weekly'>Тижневі</TabsTrigger>
+										<TabsTrigger value='monthly'>Місячні</TabsTrigger>
+									</TabsList>
+								</div>
+								<TabsContent value='weekly'>
+									<PricingPlans period='weekly' />
+								</TabsContent>
+								<TabsContent value='monthly'>
+									<PricingPlans period='monthly' />
+								</TabsContent>
+							</Tabs>
+						</div>
+					</div>
+				</section>
+			</main>
+		</div>
+	)
 }
